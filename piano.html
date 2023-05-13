@@ -1,0 +1,595 @@
+<!-- 
+
+change the color of a key
+function changeBackgroundColor() {
+  var myDiv = document.getElementById("myDiv");
+  myDiv.style.backgroundColor = "blue";
+}
+
+
+-cambiarle el color a la teclas si esta buena o mala
+-agregar texto  de buenas/malas
+-agregar tickboxes con notas para entrenar
+-aparecer y desaparecer el soundwave cuando se reproduzca el sonido
+
+
+-->
+
+
+<!DOCTYPE html>
+<html>
+    <style lang="text/less">
+       @keyframes piano {
+  0% {
+    transform: none;
+  }
+  100% {
+    transform: rotateX(50deg);
+  }
+}
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+body {
+  font-family: calibri, sans-serif;
+  font-size: 20px;
+  margin: 0;
+  height: 100%;
+  padding: 50px;
+  display: flex;
+  flex-direction: column;
+  animation: fadeIn 0.6s 0.8s ease;
+  animation-fill-mode: backwards;
+    background-color: #edefee;
+  /*margin-top: -50px;*/
+}
+body div {
+  display: flex;
+  perspective: 1000px;
+  justify-content: center;
+  align-items: center;
+  margin: 20px 0;
+}
+a {
+  color: skyblue;
+}
+.piano {
+  margin: -200px auto 100px;
+  height: 500px;
+  display: flex;
+  flex-direction: row;
+  transform-origin: bottom;
+  transform-style: preserve-3d;
+  transform: rotateX(50deg);
+  animation: piano 0.6s 0.8s ease;
+  animation-fill-mode: backwards;
+  transition: transform 0.3s ease;
+}
+.piano::before,
+.piano::after {
+  content: '';
+  position: absolute;
+  background: #3c3c3c;
+  background-clip: content-box;
+  top: 0;
+  left: 6px;
+  right: 6px;
+  bottom: 0;
+  transform: translateZ(-76px);
+  box-shadow: 0 0 40px rgba(68, 68, 68, 0.4), 0 0 0 100px #edefee;
+}
+.piano::after {
+  left: 25px;
+  right: 25px;
+  bottom: auto;
+  height: 79px;
+  transform-origin: top;
+  transform: rotateX(-90deg);
+}
+.piano.left {
+  transform: rotateX(50deg) rotateZ(10deg);
+}
+.piano.right {
+  transform: rotateX(50deg) rotateZ(-10deg);
+}
+.piano.top {
+  transform: rotateX(60deg) rotateY(10deg);
+}
+.piano.bottom {
+  transform: rotateX(40deg) rotateY(-10deg);
+}
+.piano .key-1,
+.piano .key-3,
+.piano .key-5,
+.piano .key-6,
+.piano .key-8,
+.piano .key-10,
+.piano .key-12 {
+  position: relative;
+  width: 76px;
+  height: 500px;
+  padding: 0;
+  border: none;
+  border-top: 252px solid transparent;
+  box-sizing: border-box;
+  background-color: #edefee;
+  background-clip: content-box;
+  margin: 0 2px;
+  outline: none;
+  transform-origin: top;
+  transform-style: preserve-3d;
+  box-shadow: inset 2px 0 2px -1px rgba(255, 255, 255, 0.8), inset -2px 0 2px -1px rgba(255, 255, 255, 0.8), inset 10px -10px 10px -10px rgba(68, 68, 68, 0.3), inset -10px 0 10px -10px rgba(68, 68, 68, 0.3), inset 0 -200px 200px -200px rgba(255, 255, 255, 0.7), inset 0 0 0 1000px rgba(237, 239, 238, 0.5);
+  transition: background-color 0.3s ease, transform 0.3s ease;
+}
+.piano .key-1:active,
+.piano .key-3:active,
+.piano .key-5:active,
+.piano .key-6:active,
+.piano .key-8:active,
+.piano .key-10:active,
+.piano .key-12:active {
+  transform: rotateX(-7deg);
+}
+.piano .key-1:hover,
+.piano .key-3:hover,
+.piano .key-5:hover,
+.piano .key-6:hover,
+.piano .key-8:hover,
+.piano .key-10:hover,
+.piano .key-12:hover {
+  background-color: white;
+}
+.piano .key-1:hover::before,
+.piano .key-3:hover::before,
+.piano .key-5:hover::before,
+.piano .key-6:hover::before,
+.piano .key-8:hover::before,
+.piano .key-10:hover::before,
+.piano .key-12:hover::before {
+  background: white;
+}
+.piano .key-1::before,
+.piano .key-3::before,
+.piano .key-5::before,
+.piano .key-6::before,
+.piano .key-8::before,
+.piano .key-10::before,
+.piano .key-12::before,
+.piano .key-1::after,
+.piano .key-3::after,
+.piano .key-5::after,
+.piano .key-6::after,
+.piano .key-8::after,
+.piano .key-10::after,
+.piano .key-12::after {
+  content: '';
+  background: #edefee;
+  position: absolute;
+  height: 252px;
+  top: -250px;
+  left: 0;
+  box-shadow: inset 0 200px 200px -200px rgba(68, 68, 68, 0.3), inset 10px 10px 10px -10px rgba(68, 68, 68, 0.3), inset -10px 0 10px -10px rgba(68, 68, 68, 0.3), inset 0 0 0 1000px rgba(237, 239, 238, 0.5);
+  transition: background 0.3s ease;
+}
+.piano .key-1::after,
+.piano .key-3::after,
+.piano .key-5::after,
+.piano .key-6::after,
+.piano .key-8::after,
+.piano .key-10::after,
+.piano .key-12::after {
+  top: 100%;
+  width: 100%;
+  height: 76px;
+  transform-origin: top;
+  transform: rotateX(-90deg);
+  box-shadow: inset 0 -30px 50px -30px rgba(0, 0, 0, 0.3), inset 0 2px 1px white, inset 0 4px rgba(0, 0, 0, 0.1), inset 0 10px 10px -10px rgba(0, 0, 0, 0.4);
+}
+.piano .key-1::before,
+.piano .key-6::before {
+  right: 26px;
+}
+.piano .key-3::before {
+  left: 14px;
+  right: 14px;
+}
+.piano .key-5::before,
+.piano .key-12::before {
+  left: 26px;
+  right: 0;
+}
+.piano .key-8::before {
+  left: 14px;
+  right: 20px;
+}
+.piano .key-10::before {
+  left: 20px;
+  right: 14px;
+}
+.piano .key-2,
+.piano .key-4,
+.piano .key-7,
+.piano .key-9,
+.piano .key-11 {
+  position: relative;
+  color: #444;
+  width: 32px;
+  height: 250px;
+  border: none;
+  padding: 0;
+  outline: none;
+  background: #5e5e5e;
+  border-top-left-radius: 6px;
+  border-top-right-radius: 6px;
+  transform: translateZ(35px);
+  transform-style: preserve-3d;
+  transform-origin: top;
+  box-shadow: inset 0 -7px 5px, inset 4px 0 5px, inset -4px 0 5px, inset 0 0 0 1000px rgba(94, 94, 94, 0.5);
+  z-index: 1;
+  transition: background 0.3s ease, transform 0.3s ease;
+}
+.piano .key-2:active,
+.piano .key-4:active,
+.piano .key-7:active,
+.piano .key-9:active,
+.piano .key-11:active {
+  transform: rotateX(-5deg) translateZ(35px);
+}
+.piano .key-2:hover,
+.piano .key-4:hover,
+.piano .key-7:hover,
+.piano .key-9:hover,
+.piano .key-11:hover {
+  background: #808080;
+}
+.piano .key-2::before,
+.piano .key-4::before,
+.piano .key-7::before,
+.piano .key-9::before,
+.piano .key-11::before {
+  content: '';
+  position: absolute;
+  background: #444;
+  border-top-left-radius: 6px;
+  top: 0;
+  height: 100%;
+  width: 39px;
+  transform-origin: left;
+  left: 1px;
+  transform: rotateY(93deg);
+  box-shadow: inset -50px 0 50px -50px black;
+}
+.piano .key-2::after,
+.piano .key-4::after,
+.piano .key-7::after,
+.piano .key-9::after,
+.piano .key-11::after {
+  content: '';
+  position: absolute;
+  top: 100%;
+  left: -2px;
+  width: 100%;
+  border-bottom: 31px solid #3f3f3f;
+  border-left: 2px solid transparent;
+  border-right: 2px solid transparent;
+  height: 0;
+  transform-origin: top;
+  transform: rotateX(-90deg);
+  box-shadow: 0 7px 20px rgba(0, 0, 0, 0.25), 0 3px 5px -2px rgba(255, 255, 255, 0.8), 0 5px, 0 20px #3f3f3f, 0 40px #3f3f3f;
+}
+.piano .key-2:nth-child(-n + 7)::before,
+.piano .key-4:nth-child(-n + 7)::before,
+.piano .key-7:nth-child(-n + 7)::before,
+.piano .key-9:nth-child(-n + 7)::before,
+.piano .key-11:nth-child(-n + 7)::before {
+  left: 99%;
+  transform: rotateY(87deg);
+}
+.piano .key-2,
+.piano .key-7 {
+  margin: 0 -10px 0 -22px;
+}
+.piano .key-4,
+.piano .key-11 {
+  margin: 0 -22px 0 -10px;
+}
+.piano .key-9 {
+  margin: 0 -16px 0 -16px;
+}
+.firefox,
+.ie {
+  display: none;
+}
+@-moz-document url-prefix() {
+  body > * {
+    display: none !important;
+  }
+  .firefox {
+    display: block !important;
+  }
+}
+@media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) {
+  body > * {
+    display: none !important;
+  }
+  .ie {
+    display: block !important;
+  }
+}
+
+/* https://codepen.io/yuhomyan/pen/OJMejWJ */
+.custom-btn {
+  width: 130px;
+  height: 40px;
+  color: #edefee;
+  border-radius: 5px;
+  padding: 10px 25px;
+  font-family: 'Lato', sans-serif;
+  font-weight: 500;
+  background: transparent;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  position: relative;
+  display: inline-block;
+   box-shadow:inset 2px 2px 2px 0px rgba(255,255,255,.5),
+   7px 7px 20px 0px rgba(0,0,0,.1),
+   4px 4px 5px 0px rgba(0,0,0,.1);
+  outline: none;
+}
+    /* 16 */
+    .btn-16 {
+    border: none;
+    color: #000;
+    }
+    .btn-16:after {
+    position: absolute;
+    content: "";
+    width: 0;
+    height: 100%;
+    top: 0;
+    left: 0;
+    direction: rtl;
+    z-index: -1;
+    box-shadow:
+    -7px -7px 20px 0px #fff9,
+    -4px -4px 5px 0px #fff9,
+    7px 7px 20px 0px #0002,
+    4px 4px 5px 0px #0001;
+    transition: all 0.3s ease;
+    }
+    .btn-16:hover {
+    color: #000;
+    }
+    .btn-16:hover:after {
+    left: auto;
+    right: 0;
+    width: 100%;
+    }
+    .btn-16:active {
+    top: 2px;
+    }
+    /* end * https://codepen.io/yuhomyan/pen/OJMejWJ */ 
+
+    
+    .listening {
+  width: 152px;
+}
+
+.wave {
+  animation-name: pulse;
+  animation-duration: 1.2s;
+  animation-iteration-count: infinite;
+  height: 4px;
+  y: 11px;
+}
+
+#wave-1, #wave-1-2 {
+  animation-delay: 0.2s
+}
+
+#wave-2, #wave-2-2 {
+  animation-delay: 1s
+}
+
+#wave-3, #wave-3-2 {
+  animation-delay: 0.6s
+}
+
+#wave-5, #wave-5-2 {
+  animation-delay: 0.4s;
+}
+
+#wave-4, #wave-4-2 {
+  animation-delay: 0.8s;
+}
+
+@keyframes pulse {
+  0%, 100% {
+    height: 4px;
+    y: 11px;
+  }
+  50% {
+    height: 26px;
+    y: 0px;
+  }
+}
+
+    
+      </style>
+      
+<script>
+    var pressedKey;
+
+   var started = false;
+   function empezar(){
+        started = true;
+        var C = new Audio("notas/Do.wav");  
+        var D = new Audio("notas/Re.wav");
+        var E = new Audio("notas/Mi.wav");
+        var F = new Audio("notas/Fa.wav");
+        var G = new Audio("notas/Sol.wav");
+        var A = new Audio("notas/La.wav");
+        var B = new Audio("notas/Si.wav");
+        C.alt = "C";
+        D.alt = "D";
+        E.alt = "E";
+        F.alt = "F";
+        G.alt = "G";
+        A.alt = "A";
+        B.alt = "B";
+
+        var notes  = [C,D,E,F,G,A,B];
+
+        const random = Math.floor(Math.random() * notes.length);
+        notes[random].play();
+        //console.log(notes[random].alt);
+        pressedKey = notes[random].alt;
+
+        
+   }
+   var points=0;
+   function isRight(note){
+    //console.log(pressedKey);
+    
+      if (started == true) {
+        var myDiv = document.getElementById(note);
+        if(note == pressedKey){
+                  console.log("la nota es correcta");
+                  myDiv.style.backgroundColor = "green";
+                  
+                  function doSomething() {
+                    console.log("Hello, world!");
+                    restart();
+                    empezar();
+                  }
+                  
+                  setTimeout(doSomething, 500);
+                  let myParagraph = document.getElementById('points');
+                  points +=1;
+                  myParagraph.textContent = points;
+                
+              } else{
+                  console.log("la nota es incorrecta");
+                  myDiv.style.backgroundColor = "red";
+              }
+      }
+    }
+
+    function restart(){
+      var C = document.getElementById("C");
+      var D = document.getElementById("D");
+      var E = document.getElementById("E");
+      var F = document.getElementById("F");
+      var G = document.getElementById("G");
+      var A = document.getElementById("A");
+      var B = document.getElementById("B");
+      C.style.backgroundColor = "white";
+      D.style.backgroundColor = "white";
+      E.style.backgroundColor = "white";
+      F.style.backgroundColor = "white";
+      G.style.backgroundColor = "white";
+      A.style.backgroundColor = "white";
+      B.style.backgroundColor = "white";
+    }
+
+    function C(){
+        isRight("C");
+        var C = new Audio("notas/Do.wav");        
+        C.play();
+    }
+    function D(){      
+        isRight("D");
+        var D = new Audio("notas/Re.wav");  
+        D.play();
+    }
+    function E(){ 
+        isRight("E");
+        var E = new Audio("notas/Mi.wav");   
+        E.play();
+    }
+    function F(){  
+        isRight("F");      
+        var F = new Audio("notas/Fa.wav");
+        F.play();
+    }
+    function G(){   
+        isRight("G");
+        var G = new Audio("notas/Sol.wav");     
+        G.play();
+    }
+    function A(){
+        isRight("A");      
+        var A = new Audio("notas/La.wav"); 
+        A.play();
+    }
+    function B(){  
+        isRight("B");
+        var B = new Audio("notas/Si.wav");     
+        B.play();
+    }
+  
+
+</script>
+      <body>
+        <div style="text-align: center;">
+            <button onclick="empezar()"  class="custom-btn btn-16">empezar</button>           
+            
+        </div>
+        <p style="text-align: center;" id="points" >0</p>
+
+        <div style="text-align: center;">
+        <div class="listening ">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 76 26">
+              <defs><style>.wave{fill:#231f20;}</style></defs>
+              <g id="audio-wave" data-name="audio-wave">
+                <rect id="wave-5" class="wave" x="32" y="7" width="4" height="12" rx="2" ry="2"/>
+                <rect id="wave-4" class="wave" x="24" y="2" width="4" height="22" rx="2" ry="2"/>
+                <rect id="wave-3" class="wave" x="16" width="4" height="26" rx="2" ry="2"/>
+                <rect id="wave-2" class="wave" x="8" y="5" width="4" height="16" rx="2" ry="2"/>
+                <rect id="wave-1" class="wave" y="9" width="4" height="8" rx="2" ry="2"/>
+                <rect id="wave-5-2" data-name="wave-4" class="wave" x="72" y="7" width="4" height="12" rx="2" ry="2"/>
+                <rect id="wave-4-2" data-name="wave-5" class="wave" x="64" y="2" width="4" height="22" rx="2" ry="2"/>
+                <rect id="wave-3-2" data-name="wave-3" class="wave" x="56" width="4" height="26" rx="2" ry="2"/>
+                <rect id="wave-2-2" data-name="wave-2" class="wave" x="48" y="5" width="4" height="16" rx="2" ry="2"/>
+                <rect id="wave-1-2" data-name="wave-1" class="wave" x="40" y="9" width="4" height="8" rx="2" ry="2"/>
+              </g>
+            </svg>
+          </div>
+        </div>
+
+        <div>
+          </div>    
+          <div>
+            <section class="piano" id="piano">
+              <button type="button" tabindex="-1" class="key-12" title="B"></button>
+              <button id="C" onmousedown="C()" type="button" tabindex="-1" class="key-1" title="C"></button>
+              <button type="button" tabindex="-1" class="key-2" title="C#/Db"></button>
+              <button id="D" onmousedown="D()" type="button" tabindex="-1" class="key-3" title="D"></button>
+              <button type="button" tabindex="-1" class="key-4" title="D#/Eb"></button>
+              <button id="E" onmousedown="E()" type="button" tabindex="-1" class="key-5" title="E"></button>
+              <button id="F" onmousedown="F()" type="button" tabindex="-1" class="key-6" title="F"></button>
+              <button type="button" tabindex="-1" class="key-7" title="F#/Gb"></button>
+              <button id="G" onmousedown="G()" type="button" tabindex="-1" class="key-8" title="G"></button>
+              <button type="button" tabindex="-1" class="key-9" title="G#/Ab"></button>
+              <button id="A" onmousedown="A()" type="button" tabindex="-1" class="key-10" title="A"></button>
+              <button type="button" tabindex="-1" class="key-11" title="A#/Bb"></button>
+              <button id="B" onmousedown="B()"type="button" tabindex="-1" class="key-12" title="B"></button>
+              <button type="button" tabindex="-1" class="key-1" title="C"></button>
+            </section>
+          </div>
+          
+          <div> 
+            <p> 
+                Piano design and animation by: <a href="https://codepen.io/waterplea/pen/KMYvLM">Waterplea</a> <br>
+                Button by: <a href="https://codepen.io/yuhomyan/pen/OJMejWJ">Yuhomyan</a>  <br>
+                Sound wave by: <a href="https://codepen.io/gsroth/details/GMBVyv">Graham Roth</a>
+            </p>            
+          </div>
+          
+    </body>
+</html>
