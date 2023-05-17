@@ -1,7 +1,7 @@
-
 <!-- -draggable menu
 -cookie volume 
 -when started stop previous sound, to hear the other notes, and the next to guess clearly
+-highscore
 -->
 
 
@@ -564,12 +564,21 @@ const audioCtx = new AudioContext();
   const gainNode = audioCtx.createGain();
   gainNode.connect(audioCtx.destination);
 
-  function play(note) {
-    const audio = new Audio(`notas/${note}.wav`);
-    audio.play();
-    audio.volume = document.getElementById("volume-slider").value;
-    
+
+  //////////////
+  let currentAudio = null;
+
+function play(note) {
+  if (currentAudio && started == true) {
+    currentAudio.pause();
+    currentAudio.currentTime = 0;
   }
+
+  const audio = new Audio(`notas/${note}.wav`);
+  audio.volume = document.getElementById("volume-slider").value;
+  audio.play();
+  currentAudio = audio;
+}
 
   document.getElementById("volume-slider").addEventListener("input", () => {
     const audios = document.getElementsByTagName("audio");
